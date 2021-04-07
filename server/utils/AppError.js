@@ -8,7 +8,7 @@ export const HTTPStatusCode = {
 export class AppError extends Error {
   constructor(message, statusCode, errors = {}) {
     super(message);
-    Object.setPrototypeOf(this, new target.prototype());
+    // Object.setPrototypeOf(this, new target.prototype());
 
     this.statusCode = statusCode;
     this.isOperational = true;

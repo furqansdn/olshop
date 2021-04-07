@@ -1,14 +1,12 @@
 import { Router } from 'express';
+import { signin, signup } from '../controllers/authController.js';
+import catchAsync from '../../utils/catchAsync.js';
 
 const router = Router();
 
 export default (app) => {
   app.use('/auth', router);
 
-  router.post('/signin', (req, res) => {
-    res.status(200).json({
-      message: `Berhasi ${req.originalUrl}`,
-      body: req.body,
-    });
-  });
+  router.post('/signin', catchAsync(signin));
+  router.post('/signup', catchAsync(signup));
 };

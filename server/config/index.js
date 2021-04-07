@@ -19,4 +19,9 @@ export default {
   logs: {
     level: process.env.LOG_LEVEL || 'silly',
   },
+
+  jwt: {
+    secret: process.env.JWT_SECRET,
+    expiresIn: process.env.JWT_EXPIRED_IN,
+  },
 };

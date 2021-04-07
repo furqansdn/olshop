@@ -5,13 +5,15 @@ import config from '../config/index.js';
 import routes from '../api/index.js';
 
 import { HTTPNotFound, AppError } from '../utils/AppError.js';
+import catchAsync from '../utils/catchAsync.js';
+import isLogin from '../api/middleware/isLogin.js';
 
 export default (app) => {
   /**
    * Check status
    */
-  app.get('/status', (req, res) => {
-    res.status(200).json({ message: 'bismillah' });
+  app.get('/status', catchAsync(isLogin), (req, res, next) => {
+    res.status(200).json({ message: 'bismillah', user: req.currentUser });
   });
 
   /**
