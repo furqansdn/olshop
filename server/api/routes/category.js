@@ -14,12 +14,12 @@ export default (app) => {
 
   router
     .route('/')
-    .get(catchAsync(auth), catchAsync(getAll))
+    .get(catchAsync(getAll))
     .post(catchAsync(auth), catchAsync(create));
 
   router
     .route('/:id')
-    .get(catchAsync(auth), catchAsync(getOne))
+    .get(catchAsync(getOne))
     .patch(catchAsync(auth), catchAsync(updateOne))
     .delete(catchAsync(auth), catchAsync(deleteOne));
 };

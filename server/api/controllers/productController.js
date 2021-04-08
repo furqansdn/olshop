@@ -39,11 +39,18 @@ export const update = async (req, res, next) => {
 };
 
 export const getAll = async (req, res, next) => {
-  const products = await Product.find();
+  let filter = {};
+  if (req.query.categoryId) {
+    filter['category'] = req.query.categoryId;
+  }
+  const products = await Product.find(filter).populate({
+    path: 'category',
+    select: 'title _id',
+  });
 
   res.status(200).json({
     status: 'success',
-    data: { products },
+    data: products,
   });
 };
 
