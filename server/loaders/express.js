@@ -22,9 +22,10 @@ export default (app) => {
   app.use(cors());
 
   /**
-   * Parse JSON
+   * Parse JSON & File Data
    */
   app.use(bodyParser.json({ limit: '10mb' }));
+  app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
 
   /**
    * Load Router

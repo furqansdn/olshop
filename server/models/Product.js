@@ -6,6 +6,11 @@ const productSchema = new mongoose.Schema(
       type: String,
       required: [true, 'Product Name is Required'],
     },
+    category: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Category',
+      required: [true, 'Product Category is Required'],
+    },
     description: {
       type: String,
     },
@@ -14,7 +19,7 @@ const productSchema = new mongoose.Schema(
       required: true,
       default: 1000,
     },
-    images: {
+    image: {
       type: String,
       required: [true, 'Image is Required'],
     },
