@@ -10,6 +10,12 @@ import authProtect from '../api/middleware/authProtect.js';
 
 export default (app) => {
   /**
+   * Production API
+   */
+  app.get('/', (req, res) => {
+    res.send('HELLO WOLRD: OLSHOP API');
+  });
+  /**
    * Check status
    */
   app.get('/status', catchAsync(authProtect), (req, res, next) => {

@@ -8,8 +8,11 @@ import {
   IconButton,
   Grow,
 } from '@material-ui/core';
+import { useDispatch } from 'react-redux';
 import { AddShoppingCart } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
+import { addToCart } from '../actions/cartAction';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: '100%',
@@ -39,6 +42,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Product = ({ product, timeOut, isAuthenticated }) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
   return (
     <Grow
       in={!!product}
@@ -77,7 +81,11 @@ const Product = ({ product, timeOut, isAuthenticated }) => {
           <Typography variant='body2' color='textSecondary' component='p'>
             {`Stok: ${product.stock}`}
           </Typography>
-          <IconButton aria-label='Add to Cart' disabled={!isAuthenticated}>
+          <IconButton
+            aria-label='Add to Cart'
+            disabled={!isAuthenticated}
+            onClick={() => dispatch(addToCart(product._id))}
+          >
             <AddShoppingCart />
           </IconButton>
         </CardActions>

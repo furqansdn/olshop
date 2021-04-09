@@ -63,7 +63,7 @@ export const getOne = async (req, res, next) => {
 
   res.status(200).json({
     status: 'success',
-    data: { product },
+    data: product,
   });
 };
 
