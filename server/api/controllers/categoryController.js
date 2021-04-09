@@ -6,9 +6,7 @@ export const getAll = async (req, res, next) => {
 
   res.status(200).json({
     status: 'success',
-    data: {
-      categories,
-    },
+    data: categories,
   });
 };
 export const getOne = async (req, res, next) => {

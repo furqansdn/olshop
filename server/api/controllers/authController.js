@@ -22,9 +22,7 @@ const sendToken = (user, response, statusCode) => {
   user.password = undefined;
   response.status(statusCode).json({
     status: 'success',
-    data: {
-      user,
-    },
+    data: user,
     token,
   });
 };

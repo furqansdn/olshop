@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
 import {
@@ -11,6 +12,9 @@ import {
 } from '@material-ui/core';
 
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import ListAltIcon from '@material-ui/icons/ListAlt';
+import { logout } from '../actions/authActions';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -19,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
   menuButton: {
     marginRight: theme.spacing(2),
   },
-  title: {
+  logo: {
     flexGrow: 1,
     textDecoration: 'none',
   },
@@ -30,6 +34,16 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ButtonAppBar() {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const { currentUser } = useSelector((state) => state.auth);
+  // let open;
+  // if (currentUser) {
+  //   open = Boolean(anchorEl);
+  // }
+
+  const handleLogout = () => {
+    dispatch(logout());
+  };
 
   return (
     <div className={classes.root}>
@@ -37,21 +51,50 @@ export default function ButtonAppBar() {
         <Toolbar>
           <Typography
             variant='h6'
-            className={classes.title}
+            className={classes.logo}
             component={Link}
             to='/'
             color='secondary'
           >
             MyShop
           </Typography>
-          <IconButton className={classes.shopingCart}>
+          <IconButton
+            className={classes.shopingCart}
+            component={Link}
+            to='/cart'
+          >
             <Badge badgeContent={4} color='error'>
               <ShoppingCartIcon />
             </Badge>
           </IconButton>
-          <Button color='secondary' variant='outlined'>
-            Login
-          </Button>
+          {currentUser ? (
+            <>
+              {' '}
+              <Button
+                color='inherit'
+                onClick={handleLogout}
+                startIcon={<ListAltIcon />}
+              >
+                PESANAN
+              </Button>
+              <Button
+                color='inherit'
+                onClick={handleLogout}
+                endIcon={<ExitToAppIcon />}
+              >
+                Logout
+              </Button>
+            </>
+          ) : (
+            <Button
+              color='secondary'
+              variant='outlined'
+              component={Link}
+              to='/auth'
+            >
+              Login
+            </Button>
+          )}
         </Toolbar>
       </AppBar>
     </div>

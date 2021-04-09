@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Product = ({ product, timeOut }) => {
+const Product = ({ product, timeOut, isAuthenticated }) => {
   const classes = useStyles();
   return (
     <Grow
@@ -69,12 +69,15 @@ const Product = ({ product, timeOut }) => {
           </div>
           {product.description && (
             <Typography variant='body2' color='textSecondary' component='p'>
-              Description
+              {product.description}
             </Typography>
           )}
         </CardContent>
         <CardActions disableSpacing className={classes.cardActions}>
-          <IconButton aria-label='Add to Cart'>
+          <Typography variant='body2' color='textSecondary' component='p'>
+            {`Stok: ${product.stock}`}
+          </Typography>
+          <IconButton aria-label='Add to Cart' disabled={!isAuthenticated}>
             <AddShoppingCart />
           </IconButton>
         </CardActions>

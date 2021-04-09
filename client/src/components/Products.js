@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+
 import {
   Typography,
   Grid,
@@ -7,12 +9,15 @@ import {
   IconButton,
   Menu,
   MenuItem,
+  CircularProgress,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import FilterListIcon from '@material-ui/icons/FilterList';
 
-import api from '../api';
 import Product from './Product';
+import { listProducts } from '../actions/productActions';
+import { fetchCategories } from '../actions/categoryActions';
+
 const useStyles = makeStyles((theme) => ({
   mainApp: {
     marginTop: theme.spacing(2),
@@ -37,55 +42,26 @@ const useQuery = () => {
 
 const Products = () => {
   const classes = useStyles();
-  const [productList, setProductList] = useState([]);
-  const [categories, setCategories] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
+
   const open = Boolean(anchorEl);
   const query = useQuery();
   const categoryId = query.get('categoryId');
   const catTitle = query.get('title');
 
+  const dispatch = useDispatch();
+  const { products, loading, error } = useSelector(
+    (state) => state.productList
+  );
+  const { categories } = useSelector((state) => state.categories);
+  const { currentUser } = useSelector((state) => state.auth);
+
   // const [error, setError] = useState(false);
 
-  const handleFilter = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = (event) => {
-    setAnchorEl(null);
-  };
-  const fetchProduct = async (categoryId) => {
-    let params = {};
-    if (categoryId) {
-      params.categoryId = categoryId;
-    }
-
-    const { data } = await api.get('/products', { params });
-
-    if (data.status === 'success') {
-      setProductList(data.data);
-    }
-  };
-
-  const fetchCategory = async () => {
-    const { data } = await api.get('/category');
-    if (data.status === 'success') {
-      setCategories(data.data.categories);
-    }
-  };
   useEffect(() => {
-    fetchProduct(categoryId);
-    fetchCategory();
-  }, [categoryId]);
-
-  const renderProduct = productList.map((el, index) => {
-    const timeOut = index * 500;
-    return (
-      <Grid key={el._id} item xs={12} sm={6} md={4} lg={3}>
-        <Product product={el} timeOut={timeOut} />
-      </Grid>
-    );
-  });
+    dispatch(listProducts(categoryId));
+    dispatch(fetchCategories());
+  }, [categoryId, dispatch]);
 
   const renderFilterList = categories.map((el) => {
     return (
@@ -93,7 +69,7 @@ const Products = () => {
         key={el._id}
         component={Link}
         to={`/?categoryId=${el._id}&title=${el.title}`}
-        onClick={handleClose}
+        onClick={() => setAnchorEl(null)}
       >
         {el.title}
       </MenuItem>
@@ -116,7 +92,7 @@ const Products = () => {
           aria-controls='menu-appbar'
           aria-haspopup='true'
           color='secondary'
-          onClick={handleFilter}
+          onClick={(event) => setAnchorEl(event.currentTarget)}
         >
           <FilterListIcon />
         </IconButton>
@@ -134,16 +110,33 @@ const Products = () => {
             horizontal: 'right',
           }}
           open={open}
-          onClose={handleClose}
+          onClose={() => setAnchorEl(null)}
         >
           {renderFilterList}
         </Menu>
       </div>
 
       <Divider variant='middle' className={classes.headingDivider} />
-      <Grid container spacing={4}>
-        {renderProduct}
-      </Grid>
+      {loading ? (
+        <CircularProgress color='secondary' />
+      ) : error ? (
+        <Typography>{error}</Typography>
+      ) : (
+        <Grid container spacing={4}>
+          {products.map((el, index) => {
+            const timeOut = index * 500;
+            return (
+              <Grid key={el._id} item xs={12} sm={6} md={4} lg={3}>
+                <Product
+                  product={el}
+                  timeOut={timeOut}
+                  isAuthenticated={!!currentUser}
+                />
+              </Grid>
+            );
+          })}
+        </Grid>
+      )}
     </main>
   );
 };
