@@ -12,7 +12,7 @@ pada directory client, jalankan:
 
 Buka [http://localhost:3000](http://localhost:3000) untuk tampilan client.
 
-## Client
+## Server
 
 pada directory server, jalankan:
 
@@ -22,7 +22,7 @@ pada directory server, jalankan:
 
 [http://localhost:8080](http://localhost:8080) untuk API Backend.
 
-Client Deploy: [https://olshop-client-test.vercel.app](https://olshop-client-test.vercel.app/)
+## User Test
 
 ### `Admin Login`
 
@@ -32,4 +32,7 @@ Client Deploy: [https://olshop-client-test.vercel.app](https://olshop-client-tes
 
 `email: furqan@olshop.com pass: password123`
 
+## Deployment
+
+Client Deploy: [https://olshop-client-test.vercel.app](https://olshop-client-test.vercel.app/)
 Backend Deploy: [https://astra-olshop-test-backend.herokuapp.com/](https://astra-olshop-test-backend.herokuapp.com/)
