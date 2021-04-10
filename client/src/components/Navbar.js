@@ -75,13 +75,22 @@ export default function Navbar() {
           </Typography>
           {renderShoppingCart()}
           {currentUser ? (
-            <Button
-              color='inherit'
-              onClick={handleLogout}
-              endIcon={<ExitToAppIcon />}
-            >
-              Logout
-            </Button>
+            <>
+              <Typography
+                variant='subtitle2'
+                color='secondary'
+                style={{ margin: '0 0.3rem' }}
+              >
+                {currentUser.name}
+              </Typography>
+              <Button
+                color='inherit'
+                onClick={handleLogout}
+                endIcon={<ExitToAppIcon />}
+              >
+                Logout
+              </Button>
+            </>
           ) : (
             <Button
               color='secondary'
