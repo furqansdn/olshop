@@ -22,8 +22,7 @@ const sendToken = (user, response, statusCode) => {
   user.password = undefined;
   response.status(statusCode).json({
     status: 'success',
-    data: user,
-    token,
+    data: { user, token },
   });
 };
 export const signup = async (req, res, next) => {

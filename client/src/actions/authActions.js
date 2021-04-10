@@ -6,8 +6,8 @@ export const login = (formData, history) => async (dispatch) => {
 
     const { data } = await api.post('/auth/signin', formData);
 
-    localStorage.setItem('currentUser', JSON.stringify(data));
-    dispatch({ type: 'USER_LOGIN_SUCCESS', payload: data });
+    localStorage.setItem('currentUser', JSON.stringify(data.data));
+    dispatch({ type: 'USER_LOGIN_SUCCESS', payload: data.data });
     history.push('/');
   } catch (error) {
     dispatch({ type: 'USER_LOGIN_FAILED', payload: error.message });
@@ -20,8 +20,8 @@ export const register = (formData, history) => async (dispatch) => {
 
     const { data } = await api.post('/auth/signup', formData);
 
-    localStorage.setItem('currentUser', JSON.stringify(data));
-    dispatch({ type: 'USER_REGISTER_SUCCESS', payload: data });
+    localStorage.setItem('currentUser', JSON.stringify(data.data));
+    dispatch({ type: 'USER_REGISTER_SUCCESS', payload: data.data });
     history.push('/');
   } catch (error) {
     dispatch({ type: 'USER_REGISTER_FAILED', payload: error.message });

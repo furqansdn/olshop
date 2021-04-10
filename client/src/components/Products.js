@@ -10,12 +10,13 @@ import {
   Menu,
   MenuItem,
   CircularProgress,
+  Button,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import FilterListIcon from '@material-ui/icons/FilterList';
 
 import Product from './Product';
-import { listProducts } from '../actions/productActions';
+import { listProducts, deleteProduct } from '../actions/productActions';
 import { fetchCategories } from '../actions/categoryActions';
 
 const useStyles = makeStyles((theme) => ({
@@ -34,6 +35,13 @@ const useStyles = makeStyles((theme) => ({
   },
 
   headingDivider: { margin: '1.5rem auto', width: '100%', marginTop: '0.5rem' },
+
+  productAdd: {
+    marginBottom: '1rem',
+    flexGrow: 1,
+    justifyContent: 'flex-end',
+    display: 'flex',
+  },
 }));
 
 const useQuery = () => {
@@ -58,6 +66,10 @@ const Products = () => {
 
   // const [error, setError] = useState(false);
 
+  const handleDeleteProduct = (id) => {
+    dispatch(deleteProduct(id));
+  };
+
   useEffect(() => {
     dispatch(listProducts(categoryId));
     dispatch(fetchCategories());
@@ -75,6 +87,17 @@ const Products = () => {
       </MenuItem>
     );
   });
+
+  const RenderAddProductButton = () => {
+    if (currentUser && currentUser.role === 'admin') {
+      return (
+        <div className={classes.productAdd}>
+          <Button color='primary'>Tambah Product</Button>
+        </div>
+      );
+    }
+    return null;
+  };
 
   return (
     <main className={classes.mainApp}>
@@ -117,6 +140,8 @@ const Products = () => {
       </div>
 
       <Divider variant='middle' className={classes.headingDivider} />
+      <RenderAddProductButton />
+
       {loading ? (
         <CircularProgress color='secondary' />
       ) : error ? (
@@ -131,6 +156,8 @@ const Products = () => {
                   product={el}
                   timeOut={timeOut}
                   isAuthenticated={!!currentUser}
+                  buttonAction={currentUser ? currentUser.role : ''}
+                  handleDeleteProduct={handleDeleteProduct}
                 />
               </Grid>
             );

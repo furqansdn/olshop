@@ -32,10 +32,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ButtonAppBar() {
+export default function Navbar() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { currentUser } = useSelector((state) => state.auth);
+  const { cartList } = useSelector((state) => state.cart);
+
   // let open;
   // if (currentUser) {
   //   open = Boolean(anchorEl);
@@ -43,6 +45,19 @@ export default function ButtonAppBar() {
 
   const handleLogout = () => {
     dispatch(logout());
+  };
+
+  const renderShoppingCart = () => {
+    if ((currentUser && currentUser.role !== 'admin') || !currentUser) {
+      return (
+        <IconButton className={classes.shopingCart} component={Link} to='/cart'>
+          <Badge badgeContent={cartList.length} color='error'>
+            <ShoppingCartIcon />
+          </Badge>
+        </IconButton>
+      );
+    }
+    return null;
   };
 
   return (
@@ -58,25 +73,18 @@ export default function ButtonAppBar() {
           >
             MyShop
           </Typography>
-          <IconButton
-            className={classes.shopingCart}
-            component={Link}
-            to='/cart'
-          >
-            <Badge badgeContent={4} color='error'>
-              <ShoppingCartIcon />
-            </Badge>
-          </IconButton>
+          {renderShoppingCart()}
           {currentUser ? (
             <>
-              {' '}
-              <Button
-                color='inherit'
-                onClick={handleLogout}
-                startIcon={<ListAltIcon />}
-              >
-                PESANAN
-              </Button>
+              {currentUser.role !== 'admin' ? (
+                <Button
+                  color='inherit'
+                  onClick={handleLogout}
+                  startIcon={<ListAltIcon />}
+                >
+                  PESANAN
+                </Button>
+              ) : null}
               <Button
                 color='inherit'
                 onClick={handleLogout}

@@ -3,6 +3,7 @@ import { Router } from 'express';
 import catchAsync from '../../utils/catchAsync.js';
 import upload from '../middleware/uploadMiddleware.js';
 import authProtect from '../middleware/authProtect.js';
+import restrictTo from '../middleware/restrictTo.js';
 import {
   create,
   getAll,
@@ -19,10 +20,24 @@ export default (app) => {
   router
     .route('/')
     .get(catchAsync(getAll))
-    .post(catchAsync(authProtect), upload.single('image'), catchAsync(create));
+    .post(
+      catchAsync(authProtect),
+      restrictTo('admin'),
+      upload.single('image'),
+      catchAsync(create)
+    );
   router
     .route('/:id')
     .get(catchAsync(getOne))
-    .patch(catchAsync(authProtect), upload.single('image'), catchAsync(update))
-    .delete(catchAsync(authProtect), catchAsync(deleteOne));
+    .patch(
+      catchAsync(authProtect),
+      restrictTo('admin'),
+      upload.single('image'),
+      catchAsync(update)
+    )
+    .delete(
+      catchAsync(authProtect),
+      restrictTo('admin'),
+      catchAsync(deleteOne)
+    );
 };

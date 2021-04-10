@@ -7,11 +7,13 @@ import {
   Typography,
   IconButton,
   Grow,
+  CircularProgress,
 } from '@material-ui/core';
-import { useDispatch } from 'react-redux';
-import { AddShoppingCart } from '@material-ui/icons';
+import { useDispatch, useSelector } from 'react-redux';
+import { AddShoppingCart, DeleteForever, Edit } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
 import { addToCart } from '../actions/cartAction';
+import parseRupiah from '../utils/parseRupiah';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -40,9 +42,35 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Product = ({ product, timeOut, isAuthenticated }) => {
+const Product = ({
+  product,
+  timeOut,
+  isAuthenticated,
+  buttonAction,
+  handleDeleteProduct,
+}) => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const { loading, currentId, cartList } = useSelector((state) => state.cart);
+
+  const renderCartButton = (productId) => {
+    if (loading && currentId === productId) {
+      return <CircularProgress color='secondary' />;
+    } else {
+      return (
+        <IconButton
+          aria-label='Add to Cart'
+          color='secondary'
+          disabled={
+            !isAuthenticated || cartList.some((el) => el.product === productId)
+          }
+          onClick={() => dispatch(addToCart(product._id))}
+        >
+          <AddShoppingCart />
+        </IconButton>
+      );
+    }
+  };
   return (
     <Grow
       in={!!product}
@@ -68,7 +96,7 @@ const Product = ({ product, timeOut, isAuthenticated }) => {
               color='secondary'
               className={classes.contentPrice}
             >
-              {`Rp ${product.price}`}
+              {`Rp. ${parseRupiah(product.price)}`}
             </Typography>
           </div>
           {product.description && (
@@ -78,16 +106,28 @@ const Product = ({ product, timeOut, isAuthenticated }) => {
           )}
         </CardContent>
         <CardActions disableSpacing className={classes.cardActions}>
-          <Typography variant='body2' color='textSecondary' component='p'>
-            {`Stok: ${product.stock}`}
-          </Typography>
-          <IconButton
-            aria-label='Add to Cart'
-            disabled={!isAuthenticated}
-            onClick={() => dispatch(addToCart(product._id))}
-          >
-            <AddShoppingCart />
-          </IconButton>
+          {buttonAction === 'admin' ? (
+            <>
+              <IconButton
+                color='secondary'
+                aria-label='Delete Product'
+                onClick={() => handleDeleteProduct(product._id)}
+              >
+                <DeleteForever />
+              </IconButton>
+              <IconButton color='primary' aria-label='Edit Product'>
+                <Edit />
+              </IconButton>
+            </>
+          ) : (
+            <>
+              <Typography variant='body2' color='textSecondary' component='p'>
+                {/* {`Stok: ${product.stock}`} */}
+                Tambah Keranjang
+              </Typography>
+              {renderCartButton(product._id)}
+            </>
+          )}
         </CardActions>
       </Card>
     </Grow>

@@ -11,6 +11,20 @@ export const listProducts = (categoryId) => async (dispatch) => {
 
     dispatch({ type: 'PRODUCT_LIST_SUCCESS', payload: data.data });
   } catch (error) {
-    dispatch({ type: 'PRODUCT_LIST_FAIL', payload: error.message });
+    dispatch({ type: 'PRODUCT_LIST_FAILED', payload: error.message });
+  }
+};
+
+export const deleteProduct = (id) => async (dispatch, getState) => {
+  try {
+    const { currentUser } = getState().auth;
+
+    const { data } = await api.delete(`/products/${id}`);
+
+    if (data.status === 'success') {
+      dispatch({ type: 'DELETE_PRODUCT_LIST_SUCCESS', payload: id });
+    }
+  } catch (error) {
+    dispatch({ type: 'DELETE_PRODUCT_LIST_FAILED', payload: error.message });
   }
 };

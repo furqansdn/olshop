@@ -9,6 +9,7 @@ import {
   Grid,
   Typography,
   Avatar,
+  CircularProgress,
 } from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { makeStyles } from '@material-ui/core/styles';
@@ -56,7 +57,7 @@ const Auth = ({ history }) => {
   const dispatch = useDispatch();
   const classes = useStyles();
 
-  const { currentUser } = useSelector((state) => state.auth);
+  const { currentUser, loading, error } = useSelector((state) => state.auth);
 
   const onChange = (e) => {
     setFormState({ ...formState, [e.target.name]: e.target.value });
@@ -96,53 +97,58 @@ const Auth = ({ history }) => {
           {isLogin ? 'Login' : 'Sign Up'}
         </Typography>
 
-        <form className={classes.form} onSubmit={onSubmit}>
-          <Grid container spacing={2}>
-            {!isLogin && (
+        {loading ? (
+          <CircularProgress color='secondary' />
+        ) : (
+          <form className={classes.form} onSubmit={onSubmit}>
+            {error && <Typography>{error}</Typography>}
+            <Grid container spacing={2}>
+              {!isLogin && (
+                <Input
+                  onChange={onChange}
+                  name='name'
+                  type='text'
+                  label='Full Name'
+                  value={formState.name}
+                />
+              )}
               <Input
+                type='email'
                 onChange={onChange}
-                name='name'
-                type='text'
-                label='Full Name'
-                value={formState.name}
+                label='Email'
+                name='email'
+                value={formState.email}
               />
-            )}
-            <Input
-              type='email'
-              onChange={onChange}
-              label='Email'
-              name='email'
-              value={formState.email}
-            />
-            <Input
-              type={showPassword ? 'text' : 'password'}
-              onChange={onChange}
-              label='Password'
-              name='password'
-              showPassword={handleShowPassword}
-              value={formState.password}
-            />
-            {!isLogin && (
               <Input
                 type={showPassword ? 'text' : 'password'}
                 onChange={onChange}
-                label='Password Confirmation'
-                name='passwordConfirm'
+                label='Password'
+                name='password'
                 showPassword={handleShowPassword}
-                value={formState.passwordConfirm}
+                value={formState.password}
               />
-            )}
-          </Grid>
-          <Button
-            type='submit'
-            fullWidth
-            variant='contained'
-            color='primary'
-            className={classes.submit}
-          >
-            {isLogin ? 'Login' : 'Sign Up'}
-          </Button>
-        </form>
+              {!isLogin && (
+                <Input
+                  type={showPassword ? 'text' : 'password'}
+                  onChange={onChange}
+                  label='Password Confirmation'
+                  name='passwordConfirm'
+                  showPassword={handleShowPassword}
+                  value={formState.passwordConfirm}
+                />
+              )}
+            </Grid>
+            <Button
+              type='submit'
+              fullWidth
+              variant='contained'
+              color='secondary'
+              className={classes.submit}
+            >
+              {isLogin ? 'Login' : 'Sign Up'}
+            </Button>
+          </form>
+        )}
       </Paper>
       <Grid container justify='flex-end' style={{ marginTop: '1rem' }}>
         <Grid item>
