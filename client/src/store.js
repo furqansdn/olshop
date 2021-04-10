@@ -2,7 +2,11 @@ import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
-import { productListReducer } from './reducers/productReducers';
+import {
+  productListReducer,
+  productFormReducer,
+  productReducer,
+} from './reducers/productReducers';
 import { categoryReducer } from './reducers/categoryReducers';
 import { authReducer } from './reducers/authReducers';
 import { cartReducers } from './reducers/cartReducers';
@@ -12,6 +16,8 @@ const reducer = combineReducers({
   categories: categoryReducer,
   auth: authReducer,
   cart: cartReducers,
+  productForm: productFormReducer,
+  product: productReducer,
 });
 
 const currentUserStorage = localStorage.getItem('currentUser')

@@ -75,24 +75,13 @@ export default function Navbar() {
           </Typography>
           {renderShoppingCart()}
           {currentUser ? (
-            <>
-              {currentUser.role !== 'admin' ? (
-                <Button
-                  color='inherit'
-                  onClick={handleLogout}
-                  startIcon={<ListAltIcon />}
-                >
-                  PESANAN
-                </Button>
-              ) : null}
-              <Button
-                color='inherit'
-                onClick={handleLogout}
-                endIcon={<ExitToAppIcon />}
-              >
-                Logout
-              </Button>
-            </>
+            <Button
+              color='inherit'
+              onClick={handleLogout}
+              endIcon={<ExitToAppIcon />}
+            >
+              Logout
+            </Button>
           ) : (
             <Button
               color='secondary'

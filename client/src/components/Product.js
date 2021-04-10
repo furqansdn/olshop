@@ -9,6 +9,8 @@ import {
   Grow,
   CircularProgress,
 } from '@material-ui/core';
+
+import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { AddShoppingCart, DeleteForever, Edit } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
@@ -115,7 +117,12 @@ const Product = ({
               >
                 <DeleteForever />
               </IconButton>
-              <IconButton color='primary' aria-label='Edit Product'>
+              <IconButton
+                color='primary'
+                aria-label='Edit Product'
+                component={Link}
+                to={`/product/${product._id}`}
+              >
                 <Edit />
               </IconButton>
             </>

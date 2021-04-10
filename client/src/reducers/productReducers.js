@@ -18,3 +18,37 @@ export const productListReducer = (state = { products: [] }, action) => {
       return state;
   }
 };
+
+export const productFormReducer = (
+  state = { error: '', loading: false, state: 'add' },
+  action
+) => {
+  switch (action.type) {
+    case 'PRODUCT_FORM_ACCESS':
+      return { ...state, state: action.payload, error: '' };
+    case 'PRODUCT_FORM_SUBMIT_REQUEST':
+      return { ...state, error: '', loading: true };
+    case 'PRODUCT_FORM_SUBMIT_SUCCESS':
+      return { ...state, error: '', loading: false };
+    case 'PRODUCT_FORM_SUBMIT_FAILED':
+      return { ...state, error: action.payload, loading: false };
+    default:
+      return state;
+  }
+};
+
+export const productReducer = (
+  state = { error: '', loading: false, product: {} },
+  action
+) => {
+  switch (action.type) {
+    case 'PRODUCT_REQUEST':
+      return { ...state, error: '', loading: true };
+    case 'PRODUCT_SUCCESS':
+      return { ...state, error: '', loading: false, product: action.payload };
+    case 'PRODUCT_FAILURE':
+      return { ...state, error: action.payload, loading: false };
+    default:
+      return state;
+  }
+};

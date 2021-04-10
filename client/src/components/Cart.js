@@ -13,6 +13,8 @@ const useStyles = makeStyles((theme) => ({
   },
   totalCart: {
     padding: theme.spacing(3),
+    display: 'flex',
+    flexDirection: 'column',
   },
   countCart: {
     display: 'flex',
@@ -66,6 +68,11 @@ const Cart = () => {
     (acc, element) => acc + element.price * element.quantity,
     0
   );
+
+  const totalBarang = cartList.reduce(
+    (acc, element) => acc + element.quantity,
+    0
+  );
   return (
     <Grid container className={classes.main} spacing={2}>
       <Grid item xs={12} lg={8}>
@@ -76,12 +83,24 @@ const Cart = () => {
           <Typography variant='h6'>Ringkasan Belanja</Typography>
           <div className={classes.countCart}>
             <Typography variant='body2' color='textSecondary' component='p'>
-              Total Belanja
+              {`Total Barang Belanja (${totalBarang})`}
             </Typography>
             <Typography variant='subtitle1' color='textSecondary'>
               {`Rp. ${parseRupiah(hargaTotal)}`}
             </Typography>
           </div>
+
+          {cartList.length > 0 && (
+            <Button
+              variant='outlined'
+              color='secondary'
+              component={Link}
+              to='/'
+              style={{ alignSelf: 'flex-end', marginTop: '10px' }}
+            >
+              Checkout
+            </Button>
+          )}
         </Paper>
       </Grid>
     </Grid>

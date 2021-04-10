@@ -20,6 +20,8 @@ const sendToken = (user, response, statusCode) => {
   const token = generateToken(user.id);
 
   user.password = undefined;
+  user.token;
+
   response.status(statusCode).json({
     status: 'success',
     data: { user, token },

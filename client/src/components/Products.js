@@ -92,7 +92,14 @@ const Products = () => {
     if (currentUser && currentUser.role === 'admin') {
       return (
         <div className={classes.productAdd}>
-          <Button color='primary'>Tambah Product</Button>
+          <Button
+            color='primary'
+            component={Link}
+            to='/product'
+            variant='outlined'
+          >
+            Tambah Product
+          </Button>
         </div>
       );
     }

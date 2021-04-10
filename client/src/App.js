@@ -8,6 +8,7 @@ import Navbar from './components/Navbar';
 import Products from './components/Products';
 import Cart from './components/Cart';
 import Auth from './components/Auth';
+import FormProduct from './components/FormProduct';
 
 const App = () => {
   return (
@@ -19,6 +20,7 @@ const App = () => {
           <Route path='/' exact component={Products} />
           <Route path='/cart' exact component={Cart} />
           <Route path='/Auth' exact component={Auth} />
+          <Route path='/product/:id?' component={FormProduct} />
         </Switch>
       </Container>
     </BrowserRouter>

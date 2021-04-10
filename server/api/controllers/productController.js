@@ -25,7 +25,6 @@ export const update = async (req, res, next) => {
 
   const product = await Product.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
-    runValidators: true,
   });
 
   if (!product) {
