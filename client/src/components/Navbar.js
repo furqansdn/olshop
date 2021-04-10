@@ -13,7 +13,7 @@ import {
 
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import ListAltIcon from '@material-ui/icons/ListAlt';
+
 import { logout } from '../actions/authActions';
 
 const useStyles = makeStyles((theme) => ({
