@@ -42,6 +42,11 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'flex-end',
     display: 'flex',
   },
+
+  filterCategory: {
+    display: 'flex',
+    alignItems: 'center',
+  },
 }));
 
 const useQuery = () => {
@@ -117,33 +122,38 @@ const Products = () => {
           {catTitle ? catTitle : 'All Product'}
         </Typography>
 
-        <IconButton
-          aria-label='account of current user'
-          aria-controls='menu-appbar'
-          aria-haspopup='true'
-          color='secondary'
-          onClick={(event) => setAnchorEl(event.currentTarget)}
-        >
-          <FilterListIcon />
-        </IconButton>
+        <div className={classes.filterCategory}>
+          <Typography variant='subtitle1' color='secondary'>
+            Category
+          </Typography>
+          <IconButton
+            aria-label='account of current user'
+            aria-controls='menu-appbar'
+            aria-haspopup='true'
+            color='secondary'
+            onClick={(event) => setAnchorEl(event.currentTarget)}
+          >
+            <FilterListIcon />
+          </IconButton>
 
-        <Menu
-          id='menu-appbar'
-          anchorEl={anchorEl}
-          anchorOrigin={{
-            vertical: 'top',
-            horizontal: 'right',
-          }}
-          keepMounted
-          transformOrigin={{
-            vertical: 'top',
-            horizontal: 'right',
-          }}
-          open={open}
-          onClose={() => setAnchorEl(null)}
-        >
-          {renderFilterList}
-        </Menu>
+          <Menu
+            id='menu-appbar'
+            anchorEl={anchorEl}
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            keepMounted
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            open={open}
+            onClose={() => setAnchorEl(null)}
+          >
+            {renderFilterList}
+          </Menu>
+        </div>
       </div>
 
       <Divider variant='middle' className={classes.headingDivider} />
