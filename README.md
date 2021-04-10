@@ -23,4 +23,13 @@ pada directory server, jalankan:
 [http://localhost:8080](http://localhost:8080) untuk API Backend.
 
 Client Deploy: [https://olshop-client-test.vercel.app](https://olshop-client-test.vercel.app/)
+
+### `Admin Login`
+
+`email: admin@olshop.com pass: password123`
+
+### `Client Login`
+
+`email: furqan@olshop.com pass: password123`
+
 Backend Deploy: [https://astra-olshop-test-backend.herokuapp.com/](https://astra-olshop-test-backend.herokuapp.com/)
